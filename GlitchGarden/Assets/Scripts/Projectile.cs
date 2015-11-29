@@ -1,0 +1,32 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class Projectile : MonoBehaviour {
+
+	public float speed;
+	public float damage;
+	
+	// Use this for initialization
+	void Start () {
+	
+	}
+	
+	// Update is called once per frame
+	void Update () {
+		transform.Translate (Vector3.right * speed * Time.deltaTime);
+	}
+	
+	void OnTriggerEnter2D (Collider2D collider){
+		Attacker attacker = collider.gameObject.GetComponent<Attacker>();
+		Health health = collider.gameObject.GetComponent<Health>();
+		
+		//ignore if we're aren't colliding with an Attacker...
+		// if the collider didn't have an Attacker or Health component, it will return NULL
+		if(attacker && health){
+			health.DealDamage(damage);
+			Destroy(gameObject);
+		}
+	
+	}
+
+}
